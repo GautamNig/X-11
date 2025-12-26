@@ -1,0 +1,347 @@
+/* src/components/LoginPage.css */
+.login-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.cosmic-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0a0a18 0%, #151528 30%, #1a1a2e 60%, #16213e 100%);
+  overflow: hidden;
+}
+
+/* Background Stars */
+.background-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.background-star {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: background-twinkle 25s infinite alternate;
+}
+
+@keyframes background-twinkle {
+  0%, 90% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  95% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+}
+
+/* Cosmic overlay */
+.cosmic-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 15% 15%, rgba(120, 119, 198, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 85% 85%, rgba(255, 119, 198, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(120, 219, 255, 0.01) 0%, transparent 70%);
+  pointer-events: none;
+  animation: cosmic-drift 300s infinite linear;
+}
+
+@keyframes cosmic-drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(1%, 1%) scale(1.02);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+/* Animation Container */
+.login-animation-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px; /* Smaller - was 400px */
+  height: 200px; /* Smaller - was 400px */
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.lottie-animation {
+  width: 100%;
+  height: 100%;
+}
+
+/* Login Content */
+.login-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  padding: 20px;
+}
+
+.app-title {
+  font-size: 4rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(120, 219, 255, 0.5);
+}
+
+.app-tagline {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 60px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+/* Login Card */
+.login-card {
+  background: rgba(10, 10, 24, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+              0 0 100px rgba(120, 219, 255, 0.1);
+}
+
+.login-title {
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.login-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* Google Login Button */
+.google-login-btn {
+  width: 100%;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 12px;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.google-login-btn:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.google-login-btn:active {
+  transform: translateY(0);
+}
+
+.google-btn-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.google-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Login Footer */
+.login-footer {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.terms-text {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.terms-text a {
+  color: rgba(120, 219, 255, 0.8);
+  text-decoration: none;
+}
+
+.terms-text a:hover {
+  text-decoration: underline;
+}
+
+/* Constellation Effect */
+.constellation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.constellation-line {
+  position: absolute;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(120, 219, 255, 0.3) 50%, 
+    transparent 100%);
+  height: 1px;
+  transform-origin: left center;
+  animation: constellation-scan 8s infinite linear;
+}
+
+@keyframes constellation-scan {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px) scaleX(0);
+  }
+  10% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(calc(100vw + 100px)) scaleX(1);
+  }
+}
+
+/* Generate random constellation lines */
+.constellation-line:nth-child(1) {
+  top: 15%;
+  left: 10%;
+  width: 150px;
+  animation-delay: 0s;
+  animation-duration: 12s;
+}
+.constellation-line:nth-child(2) {
+  top: 25%;
+  left: 30%;
+  width: 200px;
+  animation-delay: 1s;
+  animation-duration: 10s;
+}
+.constellation-line:nth-child(3) {
+  top: 35%;
+  left: 50%;
+  width: 180px;
+  animation-delay: 2s;
+  animation-duration: 14s;
+}
+.constellation-line:nth-child(4) {
+  top: 45%;
+  left: 70%;
+  width: 220px;
+  animation-delay: 3s;
+  animation-duration: 11s;
+}
+.constellation-line:nth-child(5) {
+  top: 55%;
+  left: 20%;
+  width: 170px;
+  animation-delay: 4s;
+  animation-duration: 13s;
+}
+.constellation-line:nth-child(6) {
+  top: 65%;
+  left: 40%;
+  width: 190px;
+  animation-delay: 5s;
+  animation-duration: 9s;
+}
+.constellation-line:nth-child(7) {
+  top: 75%;
+  left: 60%;
+  width: 160px;
+  animation-delay: 6s;
+  animation-duration: 15s;
+}
+.constellation-line:nth-child(8) {
+  top: 85%;
+  left: 80%;
+  width: 210px;
+  animation-delay: 7s;
+  animation-duration: 12s;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-animation-container {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .app-title {
+    font-size: 3rem;
+  }
+  
+  .login-card {
+    padding: 30px 20px;
+    margin: 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-animation-container {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .app-title {
+    font-size: 2.5rem;
+  }
+  
+  .app-tagline {
+    font-size: 1rem;
+    margin-bottom: 40px;
+  }
+}

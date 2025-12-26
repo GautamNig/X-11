@@ -1,0 +1,484 @@
+/* src/components/MainApp.css - UPDATED WITH SMALLER ANIMATION */
+.main-app {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.cosmic-sky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 20%, #0a0a18 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, #151528 0%, transparent 50%),
+    linear-gradient(135deg, #0a0a18 0%, #151528 30%, #1a1a2e 60%, #16213e 100%);
+  overflow: hidden;
+}
+
+/* Background Stars */
+.background-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.background-star {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  animation: star-twinkle 8s infinite ease-in-out;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes star-twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+}
+
+/* Central Animation - SMALLER SIZE */
+.central-animation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px; /* Changed from 500px to 200px */
+  height: 200px; /* Changed from 500px to 200px */
+  z-index: 2;
+}
+
+.lottie-center {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 15px rgba(120, 219, 255, 0.4));
+}
+
+/* Smaller Orbital Rings */
+.orbital-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid rgba(120, 219, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: rotate-ring linear infinite;
+}
+
+.ring-1 {
+  width: 250px; /* Smaller */
+  height: 250px;
+  animation-duration: 40s;
+}
+
+.ring-2 {
+  width: 350px; /* Smaller */
+  height: 350px;
+  animation-duration: 60s;
+  border-style: dashed;
+  border-width: 1px;
+  opacity: 0.3;
+}
+
+.ring-3 {
+  width: 450px; /* Smaller */
+  height: 450px;
+  animation-duration: 80s;
+  border-style: dotted;
+  opacity: 0.2;
+}
+
+@keyframes rotate-ring {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Floating Particles - Adjusted for smaller center */
+.floating-particle {
+  position: absolute;
+  width: 4px; /* Smaller */
+  height: 4px;
+  background: rgba(120, 219, 255, 0.6);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  animation: float-particle 10s infinite ease-in-out;
+  animation-delay: var(--delay);
+}
+
+@keyframes float-particle {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(125px) scale(0.8);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(140px) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* User Panel */
+.user-panel {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(10, 10, 24, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  min-width: 300px;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(120, 219, 255, 0.3);
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+}
+
+.user-email {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.current-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(120, 219, 255, 0.2);
+}
+
+.time-icon {
+  font-size: 0.9rem;
+}
+
+.time-text {
+  color: rgba(120, 219, 255, 0.9);
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* Control Panel */
+.control-panel {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  background: rgba(10, 10, 24, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 20px 30px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  z-index: 3;
+}
+
+.control-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px 20px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 90px;
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(120, 219, 255, 0.3);
+}
+
+.control-btn:active {
+  transform: translateY(-2px);
+}
+
+.btn-icon {
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+.btn-text {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Specific button colors */
+.upload-btn:hover { border-color: #4CAF50; color: #4CAF50; }
+.connect-btn:hover { border-color: #2196F3; color: #2196F3; }
+.explore-btn:hover { border-color: #9C27B0; color: #9C27B0; }
+.settings-btn:hover { border-color: #FF9800; color: #FF9800; }
+.logout-btn:hover { border-color: #F44336; color: #F44336; }
+
+/* Cosmic Grid */
+.cosmic-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.05;
+}
+
+.grid-line {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.grid-line.horizontal {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+.grid-line.vertical {
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+.grid-line.diagonal-1 {
+  width: 1px;
+  height: 200%;
+  background: linear-gradient(to bottom, transparent 0%, white 50%, transparent 100%);
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.grid-line.diagonal-2 {
+  width: 1px;
+  height: 200%;
+  background: linear-gradient(to bottom, transparent 0%, white 50%, transparent 100%);
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 24, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: opacity 0.5s ease;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: rgba(120, 219, 255, 0.8);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Cosmic overlay effects */
+.cosmic-sky::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 15% 15%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 85% 85%, rgba(255, 119, 198, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(120, 219, 255, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  animation: cosmic-drift 200s infinite linear;
+  z-index: 1;
+}
+
+@keyframes cosmic-drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(2%, 1%) scale(1.02);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .central-animation {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .ring-1 { width: 200px; height: 200px; }
+  .ring-2 { width: 300px; height: 300px; }
+  .ring-3 { width: 400px; height: 400px; }
+  
+  .floating-particle {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(100px);
+  }
+}
+
+@media (max-width: 768px) {
+  .central-animation {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .ring-1 { width: 160px; height: 160px; }
+  .ring-2 { width: 240px; height: 240px; }
+  .ring-3 { width: 320px; height: 320px; }
+  
+  .floating-particle {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(80px);
+  }
+  
+  .user-panel {
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: auto;
+    max-width: 200px;
+  }
+  
+  .control-panel {
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 90%;
+    gap: 10px;
+  }
+  
+  .control-btn {
+    min-width: 70px;
+    padding: 10px 15px;
+  }
+  
+  .btn-icon {
+    font-size: 1.5rem;
+  }
+  
+  .btn-text {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .central-animation {
+  width: 180px;
+  height: 180px;
+}
+
+.ring-1 { width: 140px; height: 140px; }
+.ring-2 { width: 200px; height: 200px; }
+.ring-3 { width: 260px; height: 260px; }
+  
+  .floating-particle {
+    display: none;
+  }
+  
+  .control-panel {
+    padding: 15px;
+  }
+  
+  .control-btn {
+    min-width: 60px;
+    padding: 8px 12px;
+  }
+}
