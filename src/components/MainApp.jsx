@@ -1,15 +1,30 @@
-// src/components/MainApp.jsx - UPDATED WITH LOTTIE SIZE CONTROL
+// src/components/MainApp.jsx - WITH 60px LOTTIE AND USER ORBITS
 import React, { useState, useEffect, useRef } from 'react';
 import { auth } from '../firebase';
 import lottie from 'lottie-web';
 import './MainApp.css';
+
+// Mock user data for the 11 circular tiles
+const mockUsers = [
+  { id: 1, name: 'Alex', color: '#FF6B6B', initials: 'A' },
+  { id: 2, name: 'Sam', color: '#4ECDC4', initials: 'S' },
+  { id: 3, name: 'Taylor', color: '#FFD166', initials: 'T' },
+  { id: 4, name: 'Jordan', color: '#06D6A0', initials: 'J' },
+  { id: 5, name: 'Casey', color: '#118AB2', initials: 'C' },
+  { id: 6, name: 'Riley', color: '#EF476F', initials: 'R' },
+  { id: 7, name: 'Morgan', color: '#9D4EDD', initials: 'M' },
+  { id: 8, name: 'Drew', color: '#FF9E00', initials: 'D' },
+  { id: 9, name: 'Quinn', color: '#7209B7', initials: 'Q' },
+  { id: 10, name: 'Blake', color: '#3A86FF', initials: 'B' },
+  { id: 11, name: 'Sky', color: '#FF0054', initials: 'S' },
+];
 
 export default function MainApp({ user }) {
   const [backgroundStars, setBackgroundStars] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState('');
   const lottieContainer = useRef(null);
-  const [animationSize, setAnimationSize] = useState(120); // Control size in px
+  const [activeOrbitUser, setActiveOrbitUser] = useState(null);
 
   // Generate background stars
   useEffect(() => {
@@ -28,28 +43,28 @@ export default function MainApp({ user }) {
     setTimeout(() => setIsLoading(false), 800);
   }, []);
 
-  // Load Lottie animation with size control
+  // Load Lottie animation
   useEffect(() => {
     let anim;
     if (lottieContainer.current) {
-      // Clear previous animation
-      lottieContainer.current.innerHTML = '';
-      
       anim = lottie.loadAnimation({
         container: lottieContainer.current,
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        path: '/lottie/X11-cosmic.json',
-        // You can also scale the animation directly
+        path: '/lottie/X11-cosmic.json'
       });
-      
-      // Apply scale transformation to the SVG
-      if (anim && anim.renderer && anim.renderer.svgElement) {
-        const svg = anim.renderer.svgElement;
-        svg.style.transform = `scale(0.5)`; // Adjust this scale factor
-        svg.style.transformOrigin = 'center center';
-      }
+
+      // Force small size for Lottie
+      setTimeout(() => {
+        if (anim && anim.renderer && anim.renderer.svgElement) {
+          const svg = anim.renderer.svgElement;
+          svg.style.width = '60px';
+          svg.style.height = '60px';
+          svg.style.maxWidth = '100%';
+          svg.style.maxHeight = '100%';
+        }
+      }, 100);
     }
 
     return () => {
@@ -57,7 +72,7 @@ export default function MainApp({ user }) {
         anim.destroy();
       }
     };
-  }, [animationSize]); // Re-run when size changes
+  }, []);
 
   // Update current time
   useEffect(() => {
@@ -100,18 +115,43 @@ export default function MainApp({ user }) {
     }
   };
 
-  // Size control buttons (optional - you can remove these)
-  const decreaseSize = () => {
-    if (animationSize > 50) {
-      setAnimationSize(prev => prev - 20);
-    }
+  const handleOrbitUserClick = (user) => {
+    console.log('👤 Orbit user clicked:', user.name);
+    setActiveOrbitUser(user);
+    
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+      setActiveOrbitUser(null);
+    }, 3000);
   };
 
-  const increaseSize = () => {
-    if (animationSize < 300) {
-      setAnimationSize(prev => prev + 20);
-    }
-  };
+  // Calculate positions for 11 users in a circular orbit
+  const orbitRadius = 140; // Distance from center
+  const userOrbitRadius = 20; // Size of user circles
+  const totalUsers = 11;
+  
+  const orbitUsers = mockUsers.map((user, index) => {
+    // Calculate angle for each user (evenly distributed)
+    const angle = (index / totalUsers) * Math.PI * 2;
+    
+    // Calculate position
+    const x = Math.cos(angle) * orbitRadius;
+    const y = Math.sin(angle) * orbitRadius;
+    
+    // Calculate orbit position (for CSS animation)
+    const orbitAngle = (index / totalUsers) * 360;
+    
+    return {
+      ...user,
+      x,
+      y,
+      angle: orbitAngle,
+      style: {
+        '--angle': `${orbitAngle}deg`,
+        '--delay': `${index * 0.5}s`
+      }
+    };
+  });
 
   return (
     <div className="main-app">
@@ -137,48 +177,77 @@ export default function MainApp({ user }) {
           ))}
         </div>
 
-        {/* Central Lottie Animation - WITH SIZE CONTROL */}
-        <div className="central-animation" style={{ width: `${animationSize}px`, height: `${animationSize}px` }}>
-          <div 
-            ref={lottieContainer} 
-            className="lottie-center"
-            style={{ width: '100%', height: '100%' }}
-          />
+        {/* Central Lottie Animation - 60px fixed size */}
+        <div className="central-animation">
+          <div ref={lottieContainer} className="lottie-center" />
           
-          {/* Orbital Rings - Adjusted based on animation size */}
-          <div className="orbital-ring ring-1" style={{ 
-            width: `${animationSize * 1.5}px`,
-            height: `${animationSize * 1.5}px`
-          }}></div>
-          <div className="orbital-ring ring-2" style={{ 
-            width: `${animationSize * 2}px`,
-            height: `${animationSize * 2}px`
-          }}></div>
-          <div className="orbital-ring ring-3" style={{ 
-            width: `${animationSize * 2.5}px`,
-            height: `${animationSize * 2.5}px`
-          }}></div>
+          {/* Orbital Path (visual guide) */}
+          <div className="orbital-path"></div>
           
-          {/* Floating Particles - Adjusted for size */}
-          {Array.from({ length: 12 }).map((_, i) => (
-            <div 
-              key={i} 
-              className="floating-particle" 
-              style={{
-                '--delay': `${i * 0.5}s`,
-                '--angle': `${(i * 30)}deg`,
-                '--orbit-radius': `${animationSize * 0.75}px`
-              }}
-            />
-          ))}
+          {/* 11 User Circles in Orbit */}
+          <div className="user-orbit-container">
+            {orbitUsers.map(user => (
+              <div
+                key={user.id}
+                className="orbit-user"
+                style={user.style}
+                onClick={() => handleOrbitUserClick(user)}
+              >
+                <div 
+                  className="user-circle"
+                  style={{ backgroundColor: user.color }}
+                >
+                  <span className="user-initials">{user.initials}</span>
+                </div>
+                <div className="user-glow"></div>
+              </div>
+            ))}
+          </div>
+
+          {/* Connection Lines between users */}
+          <svg className="connection-lines" width="400" height="400">
+            <defs>
+              <linearGradient id="line-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgba(120, 219, 255, 0.3)" />
+                <stop offset="50%" stopColor="rgba(120, 219, 255, 0.6)" />
+                <stop offset="100%" stopColor="rgba(120, 219, 255, 0.3)" />
+              </linearGradient>
+            </defs>
+            {orbitUsers.map((user, index) => {
+              const nextUser = orbitUsers[(index + 1) % totalUsers];
+              return (
+                <line
+                  key={`line-${index}`}
+                  x1="200"
+                  y1="200"
+                  x2={200 + user.x}
+                  y2={200 + user.y}
+                  stroke="url(#line-gradient)"
+                  strokeWidth="0.5"
+                  strokeDasharray="4,4"
+                />
+              );
+            })}
+          </svg>
         </div>
 
-        {/* Optional: Size control buttons (can be removed) */}
-        <div className="size-controls" style={{ position: 'absolute', top: '100px', right: '20px', zIndex: 100 }}>
-          <button onClick={decreaseSize} style={{ margin: '5px', padding: '5px 10px' }}>−</button>
-          <span style={{ color: 'white', margin: '0 10px' }}>{animationSize}px</span>
-          <button onClick={increaseSize} style={{ margin: '5px', padding: '5px 10px' }}>+</button>
-        </div>
+        {/* Active User Info Display */}
+        {activeOrbitUser && (
+          <div className="active-user-info">
+            <div className="active-user-card">
+              <div 
+                className="active-user-avatar"
+                style={{ backgroundColor: activeOrbitUser.color }}
+              >
+                {activeOrbitUser.initials}
+              </div>
+              <div className="active-user-details">
+                <h4>{activeOrbitUser.name}</h4>
+                <p>Orbit Member</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* User Info Panel */}
         <div className="user-panel">
@@ -236,14 +305,6 @@ export default function MainApp({ user }) {
           style={{ display: 'none' }}
           onChange={handleFileChange}
         />
-
-        {/* Cosmic Grid */}
-        <div className="cosmic-grid">
-          <div className="grid-line horizontal"></div>
-          <div className="grid-line vertical"></div>
-          <div className="grid-line diagonal-1"></div>
-          <div className="grid-line diagonal-2"></div>
-        </div>
 
         {/* Loading Overlay */}
         {isLoading && (
