@@ -1,4 +1,4 @@
-// src/components/MainApp.jsx - WITH 60px LOTTIE AND USER ORBITS
+// src/components/MainApp.jsx - UPDATED WITH COLLAPSABLE PANEL
 import React, { useState, useEffect, useRef } from 'react';
 import { auth } from '../firebase';
 import lottie from 'lottie-web';
@@ -25,6 +25,7 @@ export default function MainApp({ user }) {
   const [currentTime, setCurrentTime] = useState('');
   const lottieContainer = useRef(null);
   const [activeOrbitUser, setActiveOrbitUser] = useState(null);
+  const [isPanelExpanded, setIsPanelExpanded] = useState(false); // Panel state
 
   // Generate background stars
   useEffect(() => {
@@ -126,26 +127,15 @@ export default function MainApp({ user }) {
   };
 
   // Calculate positions for 11 users in a circular orbit
-  const orbitRadius = 140; // Distance from center
-  const userOrbitRadius = 20; // Size of user circles
+  const orbitRadius = 140;
   const totalUsers = 11;
   
   const orbitUsers = mockUsers.map((user, index) => {
-    // Calculate angle for each user (evenly distributed)
     const angle = (index / totalUsers) * Math.PI * 2;
-    
-    // Calculate position
-    const x = Math.cos(angle) * orbitRadius;
-    const y = Math.sin(angle) * orbitRadius;
-    
-    // Calculate orbit position (for CSS animation)
     const orbitAngle = (index / totalUsers) * 360;
     
     return {
       ...user,
-      x,
-      y,
-      angle: orbitAngle,
       style: {
         '--angle': `${orbitAngle}deg`,
         '--delay': `${index * 0.5}s`
@@ -214,14 +204,16 @@ export default function MainApp({ user }) {
               </linearGradient>
             </defs>
             {orbitUsers.map((user, index) => {
-              const nextUser = orbitUsers[(index + 1) % totalUsers];
+              const angle = (index / totalUsers) * Math.PI * 2;
+              const x = Math.cos(angle) * orbitRadius;
+              const y = Math.sin(angle) * orbitRadius;
               return (
                 <line
                   key={`line-${index}`}
                   x1="200"
                   y1="200"
-                  x2={200 + user.x}
-                  y2={200 + user.y}
+                  x2={200 + x}
+                  y2={200 + y}
                   stroke="url(#line-gradient)"
                   strokeWidth="0.5"
                   strokeDasharray="4,4"
@@ -249,7 +241,7 @@ export default function MainApp({ user }) {
           </div>
         )}
 
-        {/* User Info Panel */}
+        {/* User Info Panel with Logout Button */}
         <div className="user-panel">
           <div className="user-avatar">
             {user.photoURL ? (
@@ -268,34 +260,44 @@ export default function MainApp({ user }) {
             <div className="time-icon">🕒</div>
             <div className="time-text">{currentTime}</div>
           </div>
+          <button className="logout-btn-mini" onClick={handleLogout} title="Logout">
+            <span className="logout-icon">🚪</span>
+          </button>
         </div>
 
-        {/* Control Panel */}
-        <div className="control-panel">
-          <button className="control-btn upload-btn" onClick={handleUpload}>
-            <span className="btn-icon">📁</span>
-            <span className="btn-text">Upload</span>
+        {/* Expandable/Collapsable Control Panel */}
+        <div className={`control-panel ${isPanelExpanded ? 'expanded' : 'collapsed'}`}>
+          <button 
+            className="panel-toggle"
+            onClick={() => setIsPanelExpanded(!isPanelExpanded)}
+            title={isPanelExpanded ? "Collapse panel" : "Expand panel"}
+          >
+            <span className="toggle-icon">
+              {isPanelExpanded ? '▼' : '▲'}
+            </span>
           </button>
           
-          <button className="control-btn connect-btn">
-            <span className="btn-icon">🌐</span>
-            <span className="btn-text">Connect</span>
-          </button>
-          
-          <button className="control-btn explore-btn">
-            <span className="btn-icon">🔭</span>
-            <span className="btn-text">Explore</span>
-          </button>
-          
-          <button className="control-btn settings-btn">
-            <span className="btn-icon">⚙️</span>
-            <span className="btn-text">Settings</span>
-          </button>
-          
-          <button className="control-btn logout-btn" onClick={handleLogout}>
-            <span className="btn-icon">🚪</span>
-            <span className="btn-text">Logout</span>
-          </button>
+          <div className="panel-content">
+            <button className="control-btn upload-btn" onClick={handleUpload}>
+              <span className="btn-icon">📁</span>
+              <span className="btn-text">Upload</span>
+            </button>
+            
+            <button className="control-btn connect-btn">
+              <span className="btn-icon">🌐</span>
+              <span className="btn-text">Connect</span>
+            </button>
+            
+            <button className="control-btn explore-btn">
+              <span className="btn-icon">🔭</span>
+              <span className="btn-text">Explore</span>
+            </button>
+            
+            <button className="control-btn settings-btn">
+              <span className="btn-icon">⚙️</span>
+              <span className="btn-text">Settings</span>
+            </button>
+          </div>
         </div>
 
         {/* Hidden file input */}
